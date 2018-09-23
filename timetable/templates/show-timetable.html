@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <style>
+       small {
+        font-family: "Helvetica Neue";
+       }
+      </style>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+   $(function() {
+      $("#test").click(function() {
+         $.get(, function(data) {
+            alert(data);
+         });
+      });
+    });
+</script>
+</head>
+</head>
+<body>
+
+<form method="GET" >
+  {% csrf_token %}
+  <div class="m-3">
+  <div class="card text-center">
+    <div class="card-header" style="background-image:none;background: #d2cab2;">Timetable</div>
+  <div class="ml-2 my-2 my-sm-2 my-lg-2 p-2">
+     <div class="row justify-content-around">
+        {% for days, timetable in timetable_dict.items %}
+             <div class="row">
+                <div class="col-6 col-md-8" >
+                     <small>
+                     <table class="table">
+                        <thead>
+                              <tr>
+                                <th style="background-image:none;background: 	#f3edd9;" colspan="4">{{days}}</th>
+                              <tr>
+                              <tr >
+                                <th>Time</th>
+                                <th>Group</th>
+                                <th>Max</th>
+                                <th>Total</th>
+                              <tr>
+                        </thead>
+                        <tbody>
+                            {% for timetabl in timetable %}
+                                <tr>
+                                  <td>{{timetabl.time |date:"H:i"}}</td>
+                                  <td>{{timetabl.group }}</td>
+                                  <td>{{timetabl.max_student }}</td>
+                                  <td>{{timetabl.total}}</td>
+
+                                  <td></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                    </small>
+                  </div>
+              </div>
+           {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<form method="POST" >
+{% csrf_token %}
+
+<input type="submit" value="OK" class="btn btn-outline-secondary btn-sm" id="test">
+</form>
+</body>
+</html>
