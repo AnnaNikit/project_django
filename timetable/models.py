@@ -25,8 +25,8 @@ class TimeTable(models.Model):
 
 class Attendance(models.Model):
     day     = models.DateField()
-    lessons = models.ManyToManyField(TimeTable)
-    student = models.ManyToManyField(Student)
+    lessons = models.ForeignKey(TimeTable, on_delete=models.CASCADE, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return '%s %s %s'%(self.day,self.lessons, self.student)
