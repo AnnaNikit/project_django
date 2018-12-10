@@ -4,6 +4,8 @@ from timetable.views import ShowTimetableView
 from . import views
 urlpatterns = [
     path('timetable', ShowTimetableView.as_view()),
-    path('ajax/', views.add_ajax),
+    path('SignUp/', views.sing_up),
+
+
 
 ]
