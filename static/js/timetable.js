@@ -6,6 +6,14 @@ function SignUp()  {
   name_is_valid = name.length != 0 && !/[^a-z]/i.test(name)
   email_is_valid = pattern.test(email)
   if (name_is_valid && email_is_valid) {
+    element = $('#nameHelp')
+      if (element != null ) {
+          element.text("");
+        }
+    element = $('#emailHelp')
+        if (element != null ) {
+          element.text("") ;
+            };
 
     $.ajax({
                    type: 'GET',
@@ -22,21 +30,22 @@ function SignUp()  {
                    dataType: 'json',
       });
   } else {
+    element = $('#emailHelp')
+        if (element != null && !email_is_valid  ) {
+          element.text("Please enter a real email") ;
+        } else if (element != null && email_is_valid  ) {
+          element.text("") ;
+        } ;
     element = $('#nameHelp')
-
-      if (element != null ) {
-          element.text("Please enter a real name");
-        }
-    element = $('#emaiHelp')
-        if (element != null ) {
-          element.text("Please enter a real emai") ;
-            }
-
+        if (element != null && !name_is_valid) {
+            element.text("Please enter a real name");
+          } else if (element != null && name_is_valid) {
+              element.text("");
+            };
   }
-
   };(jQuery);
 
-function ShowModal(time,group,day)  {
+function ShowModal(time,group,day,max_student,total)  {
   element = document.getElementById('lessons')
   if (element != null) {
     element.innerHTML =group ;
@@ -49,5 +58,6 @@ function ShowModal(time,group,day)  {
         if (element != null) {
           element.innerHTML =time ;
                   }
-          $("#myModal").modal('show');
+  if(total < max_student) {
+    $("#myModal").modal('show');};
   }

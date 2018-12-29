@@ -14,11 +14,14 @@ import json
 
 def get_timetable_for_period(start_date, finish_date, group = None,days = None,time = None):
     if group == None or days == None or time == None:
-            timetable = TimeTable.objects.extra(where=['start_date<=%s', 'finish_date>=%s OR finish_date is NULL'],
+            timetable = TimeTable.objects.extra(where=['start_date<=%s',
+                'finish_date>=%s OR finish_date is NULL'],
                  params=[start_date, finish_date], order_by = ['days'])
     else:
-            timetable = TimeTable.objects.extra(where=['start_date<=%s', 'finish_date>=%s OR finish_date is NULL'],
-                     params=[start_date, finish_date]).filter(group = group, days = days, time = time).get()
+            timetable = TimeTable.objects.extra(where=['start_date<=%s',
+                    'finish_date>=%s OR finish_date is NULL'],
+                     params=[start_date, finish_date]).filter(group = group,
+                     days = days, time = time).get()
     return timetable
 
 class ShowTimetableView(View):
@@ -39,10 +42,12 @@ class ShowTimetableView(View):
                dict_timetabl[dayweek].append(item)
             else:
                dict_timetabl[dayweek] = [item]
-        p = {'timetable_dict': dict_timetabl, 'mon':monday.strftime("%#d %b %y"), 'sun':sun.strftime("%#d %b %y"), }
+        p = {'timetable_dict': dict_timetabl,
+             'mon':monday.strftime("%#d %b %y"),
+             'sun':sun.strftime("%#d %b %y"), }
         return HttpResponse(render(request, 'show-timetable.html',p))
 
-def sing_up(request):
+def sign_up(request):
 
     if request.is_ajax():
         dict_request = request.GET.dict()
@@ -62,20 +67,26 @@ def sing_up(request):
         student = Student.objects.get_or_create(email = email,defaults={'name': name,'start_date':today},)
         student = student[0]
 
-        response = {'first-text': 'Lorem Ipsum is simply dummy text', 'second-text': 'to make a type specimen book. It has '}
-
         # add  student in attendance
         stud_singup = Attendance.objects.filter(day = days, lessons = timetable, student = student).count()
         total       = Attendance.objects.filter(day = days, lessons = timetable).count()
         if stud_singup >=1:
-            response = {'massege':'You have already signed up','total':total, 'max':timetable.max_student}
+            response = {'massege':'You have already signed up',
+                        'total':total,
+                        'max':timetable.max_student}
+        elif total >= timetable.max_student:
+            response = {'massege':'Sign up is over',
+                        'total':total,
+                        'max':timetable.max_student}
         else:
             attendance = Attendance()
             attendance.day      = days
             attendance.lessons  = timetable
             attendance.student  = student
             attendance.save()
-        response = {'first-text': 'Lorem Ipsum is simply dummy text', 'second-text': 'to make a type specimen book. It has '}
+            response = {'massege':'You sign up for lessons',
+                        'total':total+1,
+                        'max':timetable.max_student}
         return JsonResponse(response)
     else:
          raise Http404

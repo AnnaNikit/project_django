@@ -62,7 +62,7 @@
                                 <tr>
                                   <td>{{timetabl.time |date:"H:i"}}</td>
                                   <td>{{timetabl.group }}</td>
-                                  <td ><a href="#"  data-toggle="modal" class="list-group-item-action"  onclick ="ShowModal( '{{timetabl.time |date:'H:i'}}' , '{{timetabl.group }}' ,'{{days}}')"  > {{timetabl.max_student }}/{{timetabl.total}} </a></td>
+                                  <td ><a href="#"  data-toggle="modal" class="list-group-item-action"  onclick ="ShowModal( '{{timetabl.time |date:'H:i'}}' , '{{timetabl.group }}' ,'{{days}}','{{timetabl.max_student }}','{{timetabl.total}}')"  > {{timetabl.max_student }}/{{timetabl.total}} </a></td>
                                 </tr>
                             {% endfor %}
                           </tbody>
@@ -98,13 +98,13 @@
             <label class="col-sm-2 col-form-label">
               Name </label>
               <div > <input value=""  type="text" name="name" class="form-control" required> </div>
-              <small id="nameHelp" class="form-text text-muted">sas</small>
+              <small id="nameHelp" class="form-text text-danger"></small>
           </div>
           <div class="form-group row">
               <label class="control-label col-sm-2 col-form-label">
                 Email </label>
-                <div > <input value="" type="email" name="email" class="form-control "   required> </div>
-                <small id="emailHelp" class="form-text text-muted">dsd</small>
+                <div > <input value="" type="email" name="email" class="form-control " required> </div>
+                <small id="emailHelp" class="form-text text-danger"></small>
             </div>
         </div>
 
@@ -117,7 +117,7 @@
 
     </div>
   </div>
-
+  
 </form>
 {% endblock %}
 </body>
